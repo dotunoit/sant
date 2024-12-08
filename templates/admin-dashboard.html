@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Secret Santa</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background: #ff4d4d;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        table tr:hover {
+            background: #f1f1f1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #ff4d4d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background: #e63939;
+            transform: scale(1.05);
+        }
+
+        .form-container {
+            margin: 20px 0;
+        }
+
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .form-container input, .form-container button {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .form-container button {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            transition: background 0.3s;
+        }
+
+        .form-container button:hover {
+            background: #e63939;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            h1, h2 {
+                font-size: 1.4rem;
+            }
+
+            table th, table td {
+                padding: 8px;
+                font-size: 0.8rem;
+            }
+
+            .btn {
+                font-size: 0.8rem;
+                padding: 6px 10px;
+            }
+
+            .form-container input, .form-container button {
+                font-size: 0.8rem;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+
+            table th, table td {
+                font-size: 0.7rem;
+                padding: 6px;
+            }
+
+            .form-container input, .form-container button {
+                font-size: 0.7rem;
+                padding: 6px;
+            }
+
+            .btn {
+                padding: 5px 8px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+
+        <!-- Participants Section -->
+        <div>
+            <h2>---------</h2>
+            <h2>Participants</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for participant in participants %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ participant.name }}</td>
+                            <td>{{ participant.phone }}</td>
+                            <td>{{ participant.email }}</td>
+                            <td>
+                                <a href="/remove-participant/{{ participant.id }}" class="btn">Remove</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Assignments Section -->
+        <div>
+            <h2>Assignments</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Secret Santa</th>
+                            <th>Recipient</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for assignment in assignments %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ assignment.santa_name }}</td>
+                            <td>{{ assignment.recipient_name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add Participant Section -->
+        <div class="form-container">
+            <h2>Add Participant</h2>
+            <form action="/add-participant" method="POST">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" name="phone" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="submit">Add Participant</button>
+            </form>
+        </div>
+
+        <!-- Unassigned Participants Section -->
+        <div>
+            <h2>Unassigned Participants</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for unassigned in unassigned_participants %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ unassigned.name }}</td>
+                            <td>{{ unassigned.phone }}</td>
+                            <td>{{ unassigned.email }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="go-back">
+                    <a href="{{ url_for('routes.index') }}">&#8592; Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+.santa-chariot {
+    position: absolute;
+    bottom: 10%;
+    width: 8%; /* Adjust the size as needed */
+    z-index: 2;
+    animation: flyChariot 12s linear infinite;
+}
+
+.chariot-1 { left: -20%; animation-delay: 0s; }
+.chariot-2 { left: -25%; animation-delay: 2s; }
+.chariot-3 { left: -30%; animation-delay: 4s; }
+.chariot-4 { left: -35%; animation-delay: 6s; }
+.chariot-5 { left: -40%; animation-delay: 8s; }
+
+@keyframes flyChariot {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(120vw); /* Move across the screen */
+    }
+}

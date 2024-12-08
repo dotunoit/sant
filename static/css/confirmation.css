@@ -1,0 +1,98 @@
+/* Ensure the page fills the viewport */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+/* Style for the video container */
+.video-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Style for the background video */
+#background-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-height: 100%;
+    min-width: 100%;
+    z-index: -1;
+    object-fit: cover;
+}
+
+/* Overlay to darken the background */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Content container */
+.content {
+    text-align: center;
+    color: #fff;
+    padding: 20px;
+}
+
+/* Style for the heading */
+.content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Style for the message */
+.content .message {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+/* Button styling */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #e63946;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #d62828;
+}
+.santa-chariot {
+    position: absolute;
+    bottom: 10%;
+    width: 8%; /* Adjust the size as needed */
+    z-index: 2;
+    animation: flyChariot 12s linear infinite;
+}
+
+.chariot-1 { left: -20%; animation-delay: 0s; }
+.chariot-2 { left: -25%; animation-delay: 2s; }
+.chariot-3 { left: -30%; animation-delay: 4s; }
+.chariot-4 { left: -35%; animation-delay: 6s; }
+.chariot-5 { left: -40%; animation-delay: 8s; }
+
+@keyframes flyChariot {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(120vw); /* Move across the screen */
+    }
+}

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Phone</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/confirm-phone.css') }}">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+        }
+        .video-container {
+            position: relative;
+            height: 100%;
+        }
+        video#background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+        }
+        .content {
+            max-width: 350px;
+            width: 90%;
+            text-align: center;
+            border-radius: 8px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .error-messages p {
+            color: #ff4d4d;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        label {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background: #fff;
+        }
+        input:focus {
+            outline: none;
+            border: 1px solid #fff;
+        }
+        button.btn {
+            width: 150px;
+            padding: 10px;
+            font-size: 1rem;
+            color: #fff;
+            background: #ff4d4d;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            margin: 20px auto; /* Centered vertically and horizontally */
+            display: block; /* Needed for `margin: auto` to work */
+        }
+        button.btn:hover {
+            background: #e63939;
+            transform: scale(1.05);
+        }
+        .go-back {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .go-back a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+        .go-back a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video autoplay muted loop playsinline id="background-video">
+            <source src="{{ url_for('static', filename='img/1.mp4') }}" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+        <div class="overlay">
+            <div class="content">
+                <h1>Confirm Your Details</h1>
+                <p>Your phone number ends with: <strong>****{{ phone_last4 }}</strong></p>
+    
+                <!-- Error Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="error-messages">
+                    {% for category, message in messages %}
+                    {% if category == "error" %}
+                    <p>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+    
+                <!-- Form -->
+                <form action="{{ url_for('routes.confirm_phone') }}" method="POST">
+                    <input type="hidden" name="name" value="{{ name }}">
+    
+                    <label for="phone">Enter your phone number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Eg: 0774599164" required>
+    
+                    <label for="email">Enter Your Email:</label>
+                    <input type="email" id="email" name="email" placeholder="you@secretsanta.com" required>
+    
+                    <label for="confirm_email">Confirm Your Email:</label>
+                    <input type="email" id="confirm_email" name="confirm_email" placeholder="Re-enter your email" required>
+    
+                    <button type="submit" class="btn">Confirm</button>
+                </form>
+    
+                <div class="go-back">
+                    <a href="{{ url_for('routes.select_staff') }}">&#8592; Go Back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>

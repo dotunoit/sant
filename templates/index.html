@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oak Cottage Secret Santa 2024</title>
+    <style>
+        /* Base Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        
+        /* Background Image */
+        .background-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        #background-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Overlay Styles */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5); /* Transparent overlay */
+            color: #fff;
+        }
+        
+        /* Content Styles */
+        .content {
+            text-align: center;
+            max-width: 500px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2); /* Semi-transparent white background */
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .content h1, .content h2 {
+            margin: 10px 0;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: #ff4d4d;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+        }
+        
+        .flashing-names {
+            font-size: 1.5rem;
+            color: #fff;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
+            margin: 20px 0;
+            animation: fadeText 3s infinite;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #ffd700;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
+        }
+
+        .link {
+            margin-top: 30px;
+            padding: 10px 25px;
+            font-size: 1rem;
+            background-color: #ff4d4d;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s, transform 0.2s;
+        }
+        
+        .link:hover {
+            background-color: #e63939;
+            transform: scale(1.1);
+        }
+        
+        /* Text Fade Animation */
+        @keyframes fadeText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Popup Styles */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            z-index: 1000;
+        }
+        
+        .popup h2 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .popup-text {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #333;
+        }
+        
+        .close-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 8px 16px;
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .close-btn:hover {
+            background: #e63939;
+        }
+
+       
+            .flashing-names {
+                font-size: 2.5rem; /* Increased font size */
+                font-weight: bold; /* Make it bold for better visibility */
+                color: #ffd700; /* Bright gold color for contrast */
+                text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8); /* Add a glowing effect */
+                margin-top: 20px;
+                animation: fadeText 3s infinite;
+            }
+        
+            @keyframes fadeText {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0; }
+            }
+        
+
+    </style>
+</head>
+<body>
+    <div class="background-container">
+        <img src="{{ url_for('static', filename='img/christmas.jpg') }}" alt="Christmas Image" id="background-image">
+    </div>
+    
+    <div class="overlay">
+        <div class="content">
+            <h2>Merry Christmas!</h2>
+            <h1 class="flashing-names" id="flashingNames"> Loading names...</h1>
+            
+            
+            <h4>... and a happy New Year 2025!</h4>
+            <h4>🎄 Secret Santa 2024 🎄</h4>
+            <h1>🎅 🤶 🧑‍🎄 </h1>
+            <a href="/select-staff" class="link">Select Your Name</a>
+        </div>
+    </div>
+
+    <!-- Pop-Up -->
+    <div class="popup" id="welcomePopup">
+        <h2>🤶 Season's Greetings! 🎅</h2> 
+        <p class="popup-text">
+            Hello,  
+            <br><br>
+            As we celebrate this festive season, we want to thank you for your dedication and care throughout the year. Christmas and New Year remind us of love, unity, and togetherness—values you bring to life every day.  
+            <br><br>
+            We’re excited to have you as one of our Secret Santas this year! It’s not about the gift's size or cost but the thought behind it. Let’s keep gifts meaningful and within a £10 budget as we share the joy of the season.  
+            <br><br>
+            We hope this Secret Santa initiative fosters unity among staff, strengthens bonds, and brings everyone closer together as we celebrate the spirit of the season.
+            <br><br>
+            Wishing you a joyous holiday season and a prosperous New Year ahead!  
+            <br><br>
+            Warm wishes,  
+            <br>
+            Management Team  
+            <br>
+            Oak Cottage Care Home
+        </p>
+        <button class="close-btn" onclick="closePopup()">Got it!</button>
+    </div>
+    
+    <script>
+        // Pop-Up Display
+        window.onload = function() {
+            const popup = document.getElementById('welcomePopup');
+            popup.style.display = 'block';
+        };
+
+        function closePopup() {
+            const popup = document.getElementById('welcomePopup');
+            popup.style.display = 'none';
+        }
+
+        // Staff names for flashing
+        const staffNames = [ "AISHAT", "AMANDA", "ANDI", "ASH", "DAMILOLA", "DARRYL", "DOTUN", "ESTHER", "FOZIA", "FRANK", "IMMACULATE", "IRIN", "JOLE", "KEVIN", "MADHU", "MARIATOU", "MAVIS", "MICHAEL", "MICHELLE", "MORA", "NATHALIE", "OLAMIDE", "OLAWALE", "REBECCA", "RIBENA", "SAED", "STELLA", "THILINI", "VISHAL", "VIVEK", "ZAINAB" ];
+
+        let currentIndex = 0;
+        const flashingNamesElement = document.getElementById('flashingNames');
+
+        function updateFlashingNames() {
+            if (staffNames.length > 0) {
+                flashingNamesElement.textContent = staffNames[currentIndex];
+                currentIndex = (currentIndex + 1) % staffNames.length;
+            }
+        }
+
+        setInterval(updateFlashingNames, 1500); // Change name every 1.5 seconds
+    </script>
+</body>
+</html>

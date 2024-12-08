@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reveal Recipient</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reveal-recipient.css') }}">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            background: url("{{ url_for('static', filename='img/background.jpg') }}") no-repeat center center fixed;
+            background-size: cover; /* Ensures the image covers the full screen */
+        }
+        .video-container {
+            position: relative;
+            height: 100%;
+        }
+        video#background-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.6; /* Adds transparency to the video */
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+        }
+        .content {
+            text-align: center;
+            border-radius: 8px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+        .name-flash {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .name-display {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffd700;
+            display: none;
+        }
+        .note {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: none;
+        }
+        .link {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background: #ff4d4d;
+            border-radius: 5px;
+            text-decoration: none;
+            display: none;
+        }
+        .link:hover {
+            background: #e63939;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video autoplay loop playsinline id="background-video" muted>
+            <source src="{{ url_for('static', filename='img/2.mp4') }}" type="video/mp4">
+        </video>
+        <div class="overlay">
+            <div class="content">
+                <h3>You are the Secret Santa for:</h3>
+                <div class="name-flash" id="name-flash"></div>
+                <div class="name-display" id="name-display">{{ recipient_name }}</div>
+                <p class="note" id="secret-note">Keep it a secret! 🤫</p>
+                <p class="note" id="holiday-note">Make their holiday special! 🎁</p>
+                <a href="{{ url_for('routes.index') }}" class="link" id="go-home">Go Back Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const names = [
+        "AISHAT ASELEBE", "VIVEKANANDA 'VIVEK' SADHU", "FOZIA LUNBA", "MADHU DON", 
+        "IRIN SHAJU", "MARIATOU JALLOW", "VISHAL ADAV", "DOTUN 'ALEX' OMOBOYE", 
+        "ZAINAB FALADE", "KEVIN TIMSON", "DAMILOLA ESTHER OWOFADEJU", 
+        "ASHVINI 'ASH' DON", "DAMI ORIMOOGUNJE", "ONOME 'MAVIS' ERTHLARHAGHEN", 
+        "IMMACULATE 'MACU' DIMONYE", "OLAMIDE 'OLA' DAIRO", "DARRYL TAPFUMA", 
+        "JOLE KAREN SAKEYU", "M.A SAEED", "OLUWADAMILARE 'WALE' OLAWALE", 
+        "ERANDI 'ANDI' GUNASEKARA", "MICHAEL ASELEBE", "ASHVINI 'ASH' DON", 
+        "AMANDA BASS", "THILINI PANNILA", "OLAMIDE 'OLA' DAIRO"
+        ]; // Hardcoded names for flashing effect
+        const nameFlashElement = document.getElementById("name-flash");
+        const nameDisplayElement = document.getElementById("name-display");
+        const secretNote = document.getElementById("secret-note");
+        const holidayNote = document.getElementById("holiday-note");
+        const goHomeLink = document.getElementById("go-home");
+
+        let index = 0;
+
+        // Flashing animation for names
+        function flashNames() {
+            if (index < names.length) {
+                nameFlashElement.style.display = "block";
+                nameFlashElement.textContent = names[index];
+                index++;
+                setTimeout(flashNames, 300); // Change names every 300ms
+            } else {
+                nameFlashElement.style.display = "none";
+                revealRecipient();
+            }
+        }
+
+        // Reveal the final recipient
+        function revealRecipient() {
+            nameDisplayElement.style.display = "block";
+            secretNote.style.display = "block";
+            holidayNote.style.display = "block";
+            goHomeLink.style.display = "inline-block";
+        }
+
+        // Start flashing names on page load
+        window.onload = function () {
+            flashNames();
+        };
+    </script>
+</body>
+</html>
